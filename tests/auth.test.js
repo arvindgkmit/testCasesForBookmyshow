@@ -38,7 +38,7 @@ describe('test cases for signup api', ()=>{
 
 
 
-    test('return 404 bad when  user send invailid url', ()=>{
+    test('return 404 bad when user send invailid url', ()=>{
         return request(app)
         .post('/auth/signu')
         .send({
@@ -89,6 +89,57 @@ describe('test cases for signup api', ()=>{
         });
     });
 
+
+});
+
+// test cases for login api 
+
+describe('test cases for login api ', ()=>{
+    test('return 200 ok when user login successfully', ()=>{
+        return request(app)
+        .post('/auth/login')
+        .send({
+            email: 'arvind@gmail.com',
+            password: "arvind@123"
+        })
+        .expect(200)
+        .then((response)=>{
+            expect({
+                accessToken: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
+            })
+        })
+    });
+
+
+    test('return 401 unauthorized when user send wrong email or password', ()=>{
+        return request(app)
+        .post('/auth/login')
+        .send({
+            email: 'arvid@gmail.com',
+            password: "arvind@123"
+        })
+        .expect(401)
+        .then((response)=>{
+            expect({
+                message: "please enter correct email or password" 
+            })
+        })
+    });
+
+    test('return 400 bad when user request with one or more mandatory fields', ()=>{
+        return request(app)
+        .post('/auth/login')
+        .send({
+            email: "",
+            password: "arvind@123"
+        })
+        .expect(400)
+        .then((response)=>{
+            expect({
+                message: 'please fill the all  required fields'
+            })
+        });
+    });
 
 });
 
