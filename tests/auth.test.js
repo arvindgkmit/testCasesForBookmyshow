@@ -148,12 +148,12 @@ describe('test cases for login api ', ()=>{
         test('return 404 not found when user pass invaild access token', ()=>{
             return request(app)
             .post('/auth/login')
-            .send({
-                Headers: "eyJhbGciOiJIUzI1NiJ9.Mw.7"
+            .expect(req.headers).toEqual({
+                Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
             })
             .expect(404)
             .then((response)=>{
-                expect({
+                expect(response.body).toEqual({
                     message: 'user not found'
                 })
             });
@@ -162,13 +162,13 @@ describe('test cases for login api ', ()=>{
         test('return 401 unauthorized when user does not pass access token', ()=>{
             return request(app)
             .post('/auth/login')
-            .send({
-                Headers: ""
+             .expect(req.headers).toEqual({
+                Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
             })
             .expect(401)
             .then((response)=>{
-                expect({
-                    message: 'user not login, please login '
+                expect(response.body).toEqual({
+                    message: 'user not login, please login'
                 })
             });
         });
