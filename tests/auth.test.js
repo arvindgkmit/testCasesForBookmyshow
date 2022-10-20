@@ -38,7 +38,7 @@ describe('test cases for signup api', ()=>{
 
 
 
-    test('return 404 bad when user send invailid url', ()=>{
+    test('return 404 notfound when user send invailid url', ()=>{
         return request(app)
         .post('/auth/signu')
         .send({
@@ -142,6 +142,41 @@ describe('test cases for login api ', ()=>{
     });
 
 });
+
+   // test cases for logout
+    describe('test cases for logout api ', ()=>{
+        test('return 404 not found when user pass invaild access token', ()=>{
+            return request(app)
+            .post('/auth/login')
+            .send({
+                Headers: "eyJhbGciOiJIUzI1NiJ9.Mw.7"
+            })
+            .expect(404)
+            .then((response)=>{
+                expect({
+                    message: 'user not found'
+                })
+            });
+        });
+
+        test('return 401 unauthorized when user does not pass access token', ()=>{
+            return request(app)
+            .post('/auth/login')
+            .send({
+                Headers: ""
+            })
+            .expect(401)
+            .then((response)=>{
+                expect({
+                    message: 'user not login, please login '
+                })
+            });
+        });
+        
+
+
+    });
+
 
 
 
