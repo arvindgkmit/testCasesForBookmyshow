@@ -138,7 +138,7 @@ test('return 401 unauthorized when user not login', ()=>{
 
 
  // test cases for ticket booking api 
- describe('test cases for available seats  api', ()=>{
+ describe('test cases for ticket booking  api', ()=>{
 
     test('return 201 ok when user booked ticket successfully', ()=>{
         return  request(app)
@@ -224,5 +224,72 @@ test('return 401 unauthorized when user not login', ()=>{
 
 
  });
+
+
+
+//  test cases for check my booking api 
+describe('test cases for available seats  api', ()=>{
+
+    test('return 200 ok when user get available seats', ()=>{
+        return  request(app)
+        .get('/ticket/mytickets/3',)
+        .expect(200)
+        .expect(req.headers).toEqual({
+            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
+        })
+        .then((response)=>{
+            expect(response.body).toEqual({
+                "data": [
+                    {
+                        "auditoriumName": "Lake City Mall",
+                        "movieName": "Black Adam",
+                        "seatNo": 1,
+                        "dateTime": "2020-10-22T06:30:00.000Z"
+                    },
+                    {
+                        "auditoriumName": "Lake City Mall",
+                        "movieName": "Black Adam",
+                        "seatNo": 2,
+                        "dateTime": "2020-10-22T06:30:00.000Z"
+                    }
+                ]
+            })
+        });
+    });
+
+
+    test('return 404 not found when admin send wrong token', ()=>{
+        return  request(app)
+        .get('/ticket/mytickets/3')
+        .expect(404)
+        .expect(req.headers).toEqual({
+            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw." 
+        })
+        .then((response)=>{
+            expect(response.body).toEqual({
+                message: "user not found"
+            })
+        });
+    });
+
+
+test('return 401 unauthorized when user not login', ()=>{
+    return request(app)
+    .get('/ticket/mytickets/3')
+    .expect(400)
+    .expect(req.headers).toEqual({
+        Authorization: "" 
+    })
+    .then((response)=>{
+        expect(response.body).toEqual({
+            message: "please login"
+        });
+});
+});
+
+
+ });
+
+
 
 
