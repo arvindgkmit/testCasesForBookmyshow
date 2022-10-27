@@ -24,6 +24,26 @@ const app = require('../app');
     });
 
 
+    test('return 422 Unprocessable Entity when user enter number in auditoriumName', ()=>{
+        return request(app)
+        .post('/movie/movies')
+        .send({
+            auditoriumName: 1234567890,
+            city: 'udaipur',
+            seats: 20
+        })
+        .expect(422)
+        .expect(req.headers).toEqual({
+            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
+        })
+        .then((response)=>{
+            expect(response.body).toEqual({
+                message: "you enter correct details"
+            });
+    });
+});
+
+
     test('return 400 bad request when admin add skip any field', ()=>{
         return  request(app)
         .post('/auditorium/auditorium',)
@@ -147,6 +167,26 @@ describe('test cases for add shows api', ()=>{
             })
         });
     });
+
+
+    test('return 422 Unprocessable Entity when user enter number in movieId', ()=>{
+        return request(app)
+        .post('/movie/movies')
+        .send({
+            movieId:"cbnvscvsncnbsnc",
+            auditoriumId: 3,
+            dateTime: "20-10-2022 12:00:00"
+        })
+        .expect(422)
+        .expect(req.headers).toEqual({
+            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
+        })
+        .then((response)=>{
+            expect(response.body).toEqual({
+                message: "you enter correct details"
+            });
+    });
+});
 
 
 test('return 401 unauthorized when user not login', ()=>{
