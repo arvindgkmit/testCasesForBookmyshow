@@ -1,295 +1,126 @@
 const request = require('supertest');
-const app = require('../app'); 
+const app = require('../app');
 
-// ticke api test cases
- describe('test cases for get all ticket api', ()=>{
+let token = "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg";
 
-    test('return 200 ok when user get all tickets', ()=>{
-        return  request(app)
-        .get('/ticket/tickets',)
-        .expect(200)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                "data": [
-                    {
-                        "auditoriumName": "Lake City Mall",
-                        "movieName": "Black Adam",
-                        "seatNo": 1,
-                        "status": 0,
-                        "price": 250,
-                        "dateTime": "2020-10-22T06:30:00.000Z"
-                    },
-                    {
-                        "auditoriumName": "Lake City Mall",
-                        "movieName": "Black Adam",
-                        "seatNo": 2,
-                        "status": 0,
-                        "price": 250,
-                        "dateTime": "2020-10-22T06:30:00.000Z"
-                    }
-                ]
-            })
-        });
-    });
-
-
-    test('return 404 not found when admin send wrong token', ()=>{
-        return  request(app)
-        .get('/ticket/tickets')
-        .expect(404)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw." 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: "user not found"
-            })
-        });
-    });
-
-
-test('return 401 unauthorized when user not login', ()=>{
-    return request(app)
-    .get('/ticket/tickets')
-    .expect(401)
-    .expect(req.headers).toEqual({
-        Authorization: "" 
+describe("all ticket api  test cases ", () => {
+    it("tests /api/ticket/tickets for response 200 ok", async () => {
+        const response = await request(app)
+        .get("/api/ticket/tickets")
+        .auth(token, {type: 'bearer'})
+        expect(response.statusCode).toBe(200)
     })
-    .then((response)=>{
-        expect(response.body).toEqual({
-            message: "please login"
-        });
-});
-});
+  
+
+  
+  it("tests /api/ticket/tickets for response 401 unautherized ", async () => {
+      const response = await request(app)
+      .get("/api/ticket/tickets")
+      .send({
+        movieName: "black adam"
+      })
+  
+      expect(response.body).toEqual({
+     
+      })
+      expect(response.statusCode).toBe(401)
+  })
+  
+  });
 
 
- });
 
 
- // test cases for available seats
- describe('test cases for available seats  api', ()=>{
-
-    test('return 200 ok when user get available seats', ()=>{
-        return  request(app)
-        .get('/ticket/availabletickets',)
-        .expect(200)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                "data": [
-                    {
-                        "auditoriumName": "Lake City Mall",
-                        "movieName": "Black Adam",
-                        "seatNo": 1,
-                        "status": 0,
-                        "price": 250,
-                        "dateTime": "2020-10-22T06:30:00.000Z"
-                    },
-                    {
-                        "auditoriumName": "Lake City Mall",
-                        "movieName": "Black Adam",
-                        "seatNo": 2,
-                        "status": 0,
-                        "price": 250,
-                        "dateTime": "2020-10-22T06:30:00.000Z"
-                    }
-                ]
-            })
-        });
-    });
-
-
-    test('return 404 not found when admin send wrong token', ()=>{
-        return  request(app)
-        .get('/ticket/availabletickets')
-        .expect(404)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw." 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: "user not found"
-            })
-        });
-    });
-
-
-test('return 401 unauthorized when user not login', ()=>{
-    return request(app)
-    .get('/ticket/availabletickets')
-    .expect(400)
-    .expect(req.headers).toEqual({
-        Authorization: "" 
-    })
-    .then((response)=>{
-        expect(response.body).toEqual({
-            message: "please login"
-        });
-});
-});
-
-
- });
-
-
- // test cases for ticket booking api 
- describe('test cases for ticket booking  api', ()=>{
-
-    test('return 201 ok when user booked ticket successfully', ()=>{
-        return  request(app)
-        .post('/ticket/booktickets',)
+  describe("book ticket api  test cases ", () => {
+    it("tests /api/ticket/booktickets for response 200 ok", async () => {
+        const response = await request(app)
+        .post("/api/ticket/booktickets")
+        .auth(token, {type: 'bearer'})
         .send({
-            seatId: 4,
+            seatId: 10,
+            userId: 2,
             auditoriumId: 2,
-            showId: 1,
-            movieId: 5
+            showId: 2,
+            movieId: 2
         })
-        .expect(201)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: 'Ticket booked successfully'
-            })
-        });
-    });
-
-
-    test('return 404 unauthorized when admin send wrong token', ()=>{
-        return  request(app)
-        .post('/ticket/booktickets')
+        expect(response.body).toEqual({
+            message: "Ticket booked  successfully"
+         })
+        expect(response.statusCode).toBe(200)
+    })
+  
+    it("tests /api/ticket/tickets for response 400 bad request ", async () => {
+        const response = await request(app)
+        .post("/api/ticket/booktickets")
+        .auth(token, {type: 'bearer'})
         .send({
-            seatId: 4,
-            auditoriumId: 2,
-            showId: 1,
-            movieId: 5
+          seatId: 10,
+          userId: 2,
+          auditoriumId: 2,
+          showId: 2,
+          movieId: 2
         })
-        .expect(404)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw." 
+    
+        expect(response.body).toEqual({
+            message: "Seat is already booked"
         })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: "user not found"
-            })
-        });
-    });
-
-
-test('return 400 Bad request when seat is not available', ()=>{
-    return request(app)
-    .post('/ticket/booktickets')
-    .send({
-        seatId: 4,
+        expect(response.statusCode).toBe(400)
+    })
+  
+  it("tests /api/ticket/tickets for response 401 unautherized ", async () => {
+      const response = await request(app)
+      .post("/api/ticket/booktickets")
+      .send({
+        seatId: 10,
+        userId: 2,
         auditoriumId: 2,
-        showId: 1,
-        movieId: 5
-    })
-    .expect(400)
-    .expect(req.headers).toEqual({
-        Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg"
-    })
-    .then((response)=>{
+        showId: 2,
+        movieId: 2
+      })
+  
+      expect(response.body).toEqual({
+     
+      })
+      expect(response.statusCode).toBe(401)
+  })
+  
+  });
+
+
+
+  describe("my ticket api  test cases ", () => {
+    it("tests /api/ticket/mytickets for response 200 ok", async () => {
+        const response = await request(app)
+        .get("/api/ticket/mytickets/2")
+        .auth(token, {type: 'bearer'})
         expect(response.body).toEqual({
-            message: "seat is not available "
-        });
-});
-});
-
-test('return 401 unauthorized when user not login', ()=>{
-    return request(app)
-    .post('/ticket/booktickets')
-    .send({
-        seatId: 4,
-        auditoriumId: 2,
-        showId: 1,
-        movieId: 5
+            data: [
+                {
+                    id: 20,
+                    movieName: "ps-1",
+                    dateTime: "2012-10-22T02:30:00.000Z",
+                    auditoriumName: "Lake City Mall",
+                    name: "user"
+                },
+                {
+                    id: 25,
+                    movieName: "ps-1",
+                    dateTime: "2012-10-22T02:30:00.000Z",
+                    auditoriumName: "Celebration mall",
+                    name: "user"
+                }
+            ]
+         })
+        expect(response.statusCode).toBe(200)
     })
-    .expect(401)
-    .expect(req.headers).toEqual({
-        Authorization: ""
-    })
-    .then((response)=>{
-        expect(response.body).toEqual({
-            message: "please login"
-        });
-});
-});
+  
+ 
+  
+  it("tests /api/ticket/mytickets for response 401 unautherized ", async () => {
+      const response = await request(app)
+      .get("/api/ticket/mytickets/2")
 
-
- });
-
-
-
-//  test cases for check my booking api 
-describe('test cases for available seats  api', ()=>{
-
-    test('return 200 ok when user get available seats', ()=>{
-        return  request(app)
-        .get('/ticket/mytickets/3',)
-        .expect(200)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                "data": [
-                    {
-                        "auditoriumName": "Lake City Mall",
-                        "movieName": "Black Adam",
-                        "seatNo": 1,
-                        "dateTime": "2020-10-22T06:30:00.000Z"
-                    },
-                    {
-                        "auditoriumName": "Lake City Mall",
-                        "movieName": "Black Adam",
-                        "seatNo": 2,
-                        "dateTime": "2020-10-22T06:30:00.000Z"
-                    }
-                ]
-            })
-        });
-    });
-
-
-    test('return 404 not found when admin send wrong token', ()=>{
-        return  request(app)
-        .get('/ticket/mytickets/3')
-        .expect(404)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw." 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: "user not found"
-            })
-        });
-    });
-
-
-test('return 401 unauthorized when user not login', ()=>{
-    return request(app)
-    .get('/ticket/mytickets/3')
-    .expect(400)
-    .expect(req.headers).toEqual({
-        Authorization: "" 
-    })
-    .then((response)=>{
-        expect(response.body).toEqual({
-            message: "please login"
-        });
-});
-});
-
-
- });
-
-
-
-
+      expect(response.statusCode).toBe(401)
+  })
+  
+  });

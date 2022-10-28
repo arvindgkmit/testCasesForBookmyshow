@@ -1,181 +1,113 @@
 const request = require('supertest');
 // const { response } = require('../app');
 const app = require('../app'); 
+let userToken = "eyJhbGciOiJIUzI1NiJ9.NA.oEFRX9AgOKmYS9jYWn-9H7fSOtIHED32B7TUGzDaGJA";
+// signup api test cases
+describe("Signup api  test cases ", () => {
+  it("tests /api/auth/signup for response 201 succesfull signup", async () => {
+      const response = await request(app)
+      .post("/api/auth/signup")
+      .send({
+          name: "arvind",
+          email: "arvind@gmail.com",
+          password: "arvind@123"
+      })
+      expect(response.body).toEqual({
+          message: "Registered successfully",
+      })
+      expect(response.statusCode).toBe(201)
+  })
 
-// test cases for signup api
-describe('test cases for signup api', ()=>{
-    test('return 201 created when signup request is valid', ()=>{
-        return request(app)
-        .post('/auth/signup')
-        .send({
-            name: "arvind",
-            email: "arvind@gmail.com",
-            password: "arvind@123"
-        })
-        .expect(201)
-        .then((response)=>{
-            expect({
-                message: 'signup successfully'
-            })
-        });
+
+  it("tests /api/auth/signup for response 400 bad request", async () => {
+    const response = await request(app)
+    .post("/api/auth/signup")
+    .send({
+        name: "",
+        email: "arvind@gmail.com",
+        password: "arvind@123"
     })
+    expect(response.body).toEqual({
+        message: "please enter all required details",
+    })
+    expect(response.statusCode).toBe(400)
+})
 
-
-    test('return 400 bad when user skip one or more mandatory fields', ()=>{
-        return request(app)
-        .post('/auth/signup')
-        .send({
-            name: "arvind",
-            password: "arvind@123"
-        })
-        .expect(400)
-        .then((response)=>{
-            expect({
-                message: 'please fill the all  required fields'
-            })
-        });
-    });
-
-
-
-    test('return 404 notfound when user send invailid url', ()=>{
-        return request(app)
-        .post('/auth/signu')
-        .send({
-            name: "arvind",
-            email: "arvind@gmail.com",
-            password: "arvind@123"
-        })
-        .expect(404)
-        .then((response)=>{
-            expect({
-                message: 'page not found'
-            })
-        });
-    });
-
-
-
-    test('return 409 conflict when  user send duplicate email', ()=>{
-        return request(app)
-        .post('/auth/signup')
-        .send({
-            name: "arvind",
-            email: "arvind@gmail.com",
-            password: "arvind@123"
-        })
-        .expect(409)
-        .then((response)=>{
-            expect({
-                message: 'email is already exist'
-            })
-        });
-    });
-
-
-    test('return 422 Unprocessable Entity when user enter number in name or email field', ()=>{
-        return request(app)
-        .post('/auth/signup')
-        .send({
-            name: "1234345678",
-            email: "arvind@gmail.com",
-            password: "arvind@123"
-        })
-        .expect(422)
-        .then((response)=>{
-            expect({
-                message: 'please enter correct value '
-            })
-        });
-    });
 
 
 });
 
-// test cases for login api 
-
-describe('test cases for login api ', ()=>{
-    test('return 200 ok when user login successfully', ()=>{
-        return request(app)
-        .post('/auth/login')
-        .send({
-            email: 'arvind@gmail.com',
-            password: "arvind@123"
-        })
-        .expect(200)
-        .then((response)=>{
-            expect({
-                accessToken: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-            })
-        })
-    });
 
 
-    test('return 401 unauthorized when user send wrong email or password', ()=>{
-        return request(app)
-        .post('/auth/login')
-        .send({
-            email: 'arvid@gmail.com',
-            password: "arvind@123"
-        })
-        .expect(401)
-        .then((response)=>{
-            expect({
-                message: "please enter correct email or password" 
-            })
-        })
-    });
+// login api test cases
+describe("login api  test cases ", () => {
+  it("tests /api/auth/login for response 200 succesfully login", async () => {
+      const response = await request(app)
+      .post("/api/auth/login")
+      .send({
+          email: "raghav@gmail.com",
+          password: "raghav"
+      })
+      expect(response.body).toEqual({
+        message: "Login successfully",
+        token: "eyJhbGciOiJIUzI1NiJ9.NA.oEFRX9AgOKmYS9jYWn-9H7fSOtIHED32B7TUGzDaGJA"
+      })
+      expect(response.statusCode).toBe(200)
+  })
 
-    test('return 400 bad when user request with one or more mandatory fields', ()=>{
-        return request(app)
-        .post('/auth/login')
-        .send({
-            email: "",
-            password: "arvind@123"
-        })
-        .expect(400)
-        .then((response)=>{
-            expect({
-                message: 'please fill the all  required fields'
-            })
-        });
-    });
+  it("tests /api/auth/login for response 401 Unauthorized", async () => {
+    const response = await request(app)
+    .post("/api/auth/login")
+    .send({
+        email: "raghav@gmail.com",
+        password: "rag"
+    })
+    expect(response.body).toEqual({
+      message: "incorrect email and password"
+    })
+    expect(response.statusCode).toBe(401)
+})
+
+it("tests /api/auth/login for response 400 bad request", async () => {
+  const response = await request(app)
+  .post("/api/auth/login")
+  .send({
+      email: "",
+      password: "rag"
+  })
+  expect(response.body).toEqual({
+    message: "please enter email and password"
+  })
+  expect(response.statusCode).toBe(400)
+})
 
 });
 
-   // test cases for logout
-    describe('test cases for logout api ', ()=>{
-        test('return 404 not found when user pass invaild access token', ()=>{
-            return request(app)
-            .post('/auth/login')
-            .expect(req.headers).toEqual({
-                Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-            })
-            .expect(404)
-            .then((response)=>{
-                expect(response.body).toEqual({
-                    message: 'user not found'
-                })
-            });
-        });
-
-        test('return 401 unauthorized when user does not pass access token', ()=>{
-            return request(app)
-            .post('/auth/login')
-             .expect(req.headers).toEqual({
-                Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-            })
-            .expect(401)
-            .then((response)=>{
-                expect(response.body).toEqual({
-                    message: 'user not login, please login'
-                })
-            });
-        });
-        
 
 
-    });
+describe("logout api  test cases ", () => {
+  it("tests /api/auth/logout for response 200 succesfully logout", async () => {
+      const response = await request(app)
+      .post("/api/auth/logout")
+      .auth(userToken, {type: 'bearer'})
+      expect(response.body).toEqual({
+        message: "Logout Successfully"
+      })
+      expect(response.statusCode).toBe(200)
+  })
+
+  it("tests /api/auth/login for response 401 Unauthorized", async () => {
+    const response = await request(app)
+    .post("/api/auth/logout")
+    expect(response.statusCode).toBe(401)
+})
+
+
+
+});
+
+
+
 
 
 

@@ -3,19 +3,41 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon app.js",
     "test": "jest --watchAll"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
     "express": "~4.16.1",
+    "express-jwt": "^7.7.7",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "~1.9.1",
+    "msl": "^0.27.0",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.20"
   },
   "devDependencies": {
     "jest": "^29.2.1",
     "supertest": "^6.3.0"
-  }
+  },
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arvindgkmit/testCasesForBookmyshow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arvindgkmit/testCasesForBookmyshow/issues"
+  },
+  "homepage": "https://github.com/arvindgkmit/testCasesForBookmyshow#readme",
+  "description": ""
 }

@@ -1,41 +1,30 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var authRouter = require('./routes/auth');
+const express = require('express')
+const app = express();
+const db = require('./db');
+const port = 3000;
 
-var app = express();
+app.use(express.json())
+// db.connect();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+   db.connect((error)=>{
+    if (error){
+        console.log(error);
+    }
+     else{
+        console.log("connected");
+    }
+  });
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// // available routes
+app.use('/api/auth', require('./api/Auth'));
+app.use('/api/movies', require('./api/Movies'));
+app.use('/api/auditorium', require('./api/Auditorium'));
+app.use('/api/ticket', require('./api/Ticket'));
 
-app.use('/', indexRouter);
-app.use('/auth', authRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+app.listen(port,  () => {
+  console.log(`Example app listening on port 5000`)
+})
 
 module.exports = app;
+

@@ -1,16 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
+const auth = require('../api/Auth')
 /* GET users listing. */
-router.post('/signup', function(req, res, next) {
-    const {body} = req; 
-    let data = {
-        name: body.name,
-        email: body.email,
-        password: body.password
-    }
-
-  res.status(201).json(data);
-});
+router.post('/signup', auth);
 
 module.exports = router;

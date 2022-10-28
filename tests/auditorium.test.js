@@ -1,212 +1,105 @@
 const request = require('supertest');
-const app = require('../app'); 
+const app = require('../app');
 
-// test cases for add auditorium api 
- describe('test cases for add auditorium api', ()=>{
+let admintoken = "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg";
+let userToken = "eyJhbGciOiJIUzI1NiJ9.NA.oEFRX9AgOKmYS9jYWn-9H7fSOtIHED32B7TUGzDaGJA";
 
-    test('return 201 ok when admin add a auditorium', ()=>{
-        return  request(app)
-        .post('/auditorium/auditorium',)
+
+describe("auditorium api  test cases ", () => {
+    it("tests /api/auditorium/auditorium for response 201 created", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/auditorium")
+        .auth(admintoken, {type: 'bearer'})
         .send({
-            auditoriumName: 'lake city',
-            city: 'udaipur',
-            seats: 20
+            auditoriumName: "mandsaurAudi",
+            city: "mandsaur",
+            seats: 10
         })
-        .expect(201)
-        .expect(req.headers).toEqual({
-            Authorization: 'eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg'
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: 'auditorium added successfully'
-            })
-        });
-    });
-
-
-    test('return 422 Unprocessable Entity when user enter number in auditoriumName', ()=>{
-        return request(app)
-        .post('/movie/movies')
-        .send({
-            auditoriumName: 1234567890,
-            city: 'udaipur',
-            seats: 20
-        })
-        .expect(422)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: "you enter correct details"
-            });
-    });
-});
-
-
-    test('return 400 bad request when admin add skip any field', ()=>{
-        return  request(app)
-        .post('/auditorium/auditorium',)
-        .send({
-            auditoriumName: 'lake city',
-            city: '',
-            seats: 20
-        })
-        .expect(400)
-        .expect(req.headers).toEqual({
-            Authorization: 'eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg' 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: 'please fill the all required fields'
-            })
-        });
-    });
-
-    test('return 403 forbidden when admin send wrong token', ()=>{
-        return  request(app)
-        .post('/auditorium/auditorium')
-        .send({
-            auditoriumName: 'lake city',
-            city: 'udaipur',
-            seats: 20
-        })
-        .expect(403)
-        .expect(req.headers).toEqual({
-            Authorization: 'eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg'
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: 'you can not access this page'
-            })
-        });
-    });
-
-
-test('return 401 unauthorized when user not login', ()=>{
-    return request(app)
-    .post('/auditorium/auditorium')
-    .send({
-        auditoriumName: 'lake city',
-        city: 'udaipur',
-        seats: 20
-    })
-    .expect(401)
-    .expect(req.headers).toEqual({
-        Authorization: '' 
-    })
-    .then((response)=>{
         expect(response.body).toEqual({
-            message: 'please login'
-        });
-});
-});
-
-
- });
-
-
-
-//  test cases for add shows 
-describe('test cases for add shows api', ()=>{
-
-    test('return 201 ok when admin add a auditorium', ()=>{
-        return  request(app)
-        .post('/auditorium/shows',)
-        .send({
-            movieId: 7,
-            auditoriumId: 3,
-            dateTime: "20-10-2022 12:00:00"
-        })
-        .expect(201)
-        .expect(req.headers).toEqual({
-            Authorization: 'eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg'
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: 'show added successfully'
-            })
-        });
-    });
-
-
-    test('return 400 bad request when admin add skip any field', ()=>{
-        return  request(app)
-        .post('/auditorium/shows',)
-        .send({
-            movieId: 7,
-            auditoriumId: 3,
-            dateTime: "20-10-2022 12:00:00"
-        })
-        .expect(400)
-        .expect(req.headers).toEqual({
-            Authorization: 'eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg' 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: 'please fill the all required fields'
-            })
-        });
-    });
-
-    test('return 403 forbidden when admin send wrong token', ()=>{
-        return  request(app)
-        .post('/auditorium/shows')
-        .send({
-            movieId: 7,
-            auditoriumId: 3,
-            dateTime: "20-10-2022 12:00:00"
-        })
-        .expect(403)
-        .expect(req.headers).toEqual({
-            Authorization: 'eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg'
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: 'you can not access this page'
-            })
-        });
-    });
-
-
-    test('return 422 Unprocessable Entity when user enter number in movieId', ()=>{
-        return request(app)
-        .post('/movie/movies')
-        .send({
-            movieId:"cbnvscvsncnbsnc",
-            auditoriumId: 3,
-            dateTime: "20-10-2022 12:00:00"
-        })
-        .expect(422)
-        .expect(req.headers).toEqual({
-            Authorization: "eyJhbGciOiJIUzI1NiJ9.Mw.7lgYa5GpLnFasIFD8Leet3arTtYx27Df8Gau6dhIEYg" 
-        })
-        .then((response)=>{
-            expect(response.body).toEqual({
-                message: "you enter correct details"
-            });
-    });
-});
-
-
-test('return 401 unauthorized when user not login', ()=>{
-    return request(app)
-    .post('/auditorium/shows')
-    .send({
-        movieId: 7,
-        auditoriumId: 3,
-        dateTime: "20-10-2022 12:00:00"
+            message: "auditorium added successfully"
+         })
+        expect(response.statusCode).toBe(201)
     })
-    .expect(401)
-    .expect(req.headers).toEqual({
-        Authorization: '' 
-    })
-    .then((response)=>{
+
+    it("tests /api/auditorium/auditorium for response 403 forbidden", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/auditorium")
+        .auth(userToken, {type: 'bearer'})
+        .send({
+            auditoriumName: "mandsaurAudi",
+            city: "mandsaur",
+            seats: 10
+        })
         expect(response.body).toEqual({
-            message: 'please login'
-        });
-});
-});
+            message: "Admin access required"
+         })
+        expect(response.statusCode).toBe(403)
+    })
+  
+ 
+  
+  it("tests /api/ticket/mytickets for response 401 unautherized ", async () => {
+      const response = await request(app)
+      .get("/api/auditorium/auditorium/2")
+      expect(response.statusCode).toBe(404)
+  })
+  
+  });
 
 
- });
+
+  describe("shows api  test cases ", () => {
+    it("tests /api/auditorium/shows for response 201 created", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/shows")
+        .auth(admintoken, {type: 'bearer'})
+        .send({
+             movieId: 3, 
+             auditoriumId: 4,
+             dateTime: "2012-10-22T02:30:00.000Z"
+        })
+        expect(response.body).toEqual({
+            message: 'show added successfully'
+         })
+        expect(response.statusCode).toBe(201)
+    })
+
+    it("tests /api/auditorium/auditorium for response 400 bad request", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/shows")
+        .auth(admintoken, {type: 'bearer'})
+        .send({
+            movieId: 2, 
+            auditoriumId: 4,
+            dateTime: "2012-10-22T02:30:00.000Z"
+        })
+        expect(response.body).toEqual({
+            message: "please enter the all details"
+         })
+        expect(response.statusCode).toBe(400)
+    })
+
+    it("tests /api/auditorium/auditorium for response 403 forbidden", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/shows")
+        .auth(userToken, {type: 'bearer'})
+        .send({
+            movieId: 3, 
+            auditoriumId: 4,
+            dateTime: "2012-10-22T02:30:00.000Z"
+        })
+        expect(response.body).toEqual({
+            message: "Admin access required"
+         })
+        expect(response.statusCode).toBe(403)
+    })
+  
+ 
+  
+  it("tests /api/ticket/mytickets for response 401 unautherized ", async () => {
+      const response = await request(app)
+      .post("/api/auditorium/shows")
+      expect(response.statusCode).toBe(401)
+  })
+  
+  });
