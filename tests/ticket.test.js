@@ -37,11 +37,11 @@ describe("all ticket api  test cases ", () => {
         .post("/api/ticket/booktickets")
         .auth(token, {type: 'bearer'})
         .send({
-            seatId: 10,
+            seatId: 9,
             userId: 2,
             auditoriumId: 2,
             showId: 2,
-            movieId: 2
+            movieId: 3
         })
         expect(response.body).toEqual({
             message: "Ticket booked  successfully"
@@ -58,7 +58,7 @@ describe("all ticket api  test cases ", () => {
           userId: 2,
           auditoriumId: 2,
           showId: 2,
-          movieId: 2
+          movieId: 3
         })
     
         expect(response.body).toEqual({
