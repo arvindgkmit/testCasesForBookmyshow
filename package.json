@@ -21,6 +21,12 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.20"
   },
+  "jest":{
+   "collectCoverage": true,
+   "coverageRepoter": ["lcov"],
+   "coverageDirectory": "./output/code-coverage/"
+  },
+
   "devDependencies": {
     "jest": "^29.2.1",
     "supertest": "^6.3.0"

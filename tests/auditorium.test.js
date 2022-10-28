@@ -69,14 +69,14 @@ describe("auditorium api  test cases ", () => {
         .post("/api/auditorium/shows")
         .auth(admintoken, {type: 'bearer'})
         .send({
-            movieId: 2, 
             auditoriumId: 4,
             dateTime: "2012-10-22T02:30:00.000Z"
         })
         expect(response.body).toEqual({
-            message: "please enter the all details"
+            // message: "please enter the all details"
+            error: "internal server error"
          })
-        expect(response.statusCode).toBe(400)
+        expect(response.statusCode).toBe(500)
     })
 
     it("tests /api/auditorium/auditorium for response 403 forbidden", async () => {
