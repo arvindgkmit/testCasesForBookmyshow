@@ -21,6 +21,21 @@ describe("auditorium api  test cases ", () => {
         expect(response.statusCode).toBe(201)
     })
 
+    it("tests /api/auditorium/auditorium for response 400 bad request~", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/auditorium")
+        .auth(admintoken, {type: 'bearer'})
+        .send({
+            auditoriumName: "",
+            city: "",
+            seats: 10
+        })
+        expect(response.body).toEqual({
+            message: "please enter the all details"
+         })
+        expect(response.statusCode).toBe(400)
+    })
+
     it("tests /api/auditorium/auditorium for response 403 forbidden", async () => {
         const response = await request(app)
         .post("/api/auditorium/auditorium")
@@ -38,9 +53,9 @@ describe("auditorium api  test cases ", () => {
   
  
   
-  it("tests /api/ticket/mytickets for response 401 unautherized ", async () => {
+  it("tests /api/auditorium/auditorium for response 401 unautherized ", async () => {
       const response = await request(app)
-      .get("/api/auditorium/auditorium/2")
+      .get("/api/auditorium/auditorium")
       expect(response.statusCode).toBe(404)
   })
   
@@ -55,13 +70,28 @@ describe("auditorium api  test cases ", () => {
         .auth(admintoken, {type: 'bearer'})
         .send({
              movieId: 3, 
-             auditoriumId: 4,
+             auditoriumId: 1,
              dateTime: "2012-10-22T02:30:00.000Z"
         })
         expect(response.body).toEqual({
             message: 'show added successfully'
          })
         expect(response.statusCode).toBe(201)
+    })
+
+    it("tests /api/auditorium/shows for response 400 bad request", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/shows")
+        .auth(admintoken, {type: 'bearer'})
+        .send({
+             movieId: "", 
+             auditoriumId: 1,
+             dateTime: ""
+        })
+        expect(response.body).toEqual({
+            message: 'please enter the all details'
+         })
+        expect(response.statusCode).toBe(400)
     })
 
     it("tests /api/auditorium/auditorium for response 400 bad request", async () => {
@@ -100,6 +130,59 @@ describe("auditorium api  test cases ", () => {
       const response = await request(app)
       .post("/api/auditorium/shows")
       expect(response.statusCode).toBe(401)
+  })
+  
+  });
+
+
+  describe("seats api  test cases ", () => {
+    it("tests /api/auditorium/seats for response 201 created", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/seats")
+        .auth(admintoken, {type: 'bearer'})
+        .send({
+            auditoriumId: 3,
+            seatNo: 11,
+        })
+        expect(response.body).toEqual({
+            message: "seat added successfully"
+         })
+        expect(response.statusCode).toBe(201)
+    })
+
+    it("tests /api/auditorium/seats for response 400 bad request~", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/seats")
+        .auth(admintoken, {type: 'bearer'})
+        .send({
+            auditoriumId: "",
+        })
+        expect(response.body).toEqual({
+            message: "please enter the all details"
+         })
+        expect(response.statusCode).toBe(400)
+    })
+
+    it("tests /api/auditorium/seats for response 403 forbidden", async () => {
+        const response = await request(app)
+        .post("/api/auditorium/seats")
+        .auth(userToken, {type: 'bearer'})
+        .send({
+            auditoriumId: 3,
+            seatNo: 11,
+        })
+        expect(response.body).toEqual({
+            message: "Admin access required"
+         })
+        expect(response.statusCode).toBe(403)
+    })
+  
+ 
+  
+  it("tests /api/ticket/seats for response 401 unautherized ", async () => {
+      const response = await request(app)
+      .get("/api/auditorium/seats")
+      expect(response.statusCode).toBe(404)
   })
   
   });

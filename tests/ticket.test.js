@@ -32,22 +32,22 @@ describe("all ticket api  test cases ", () => {
 
 
   describe("book ticket api  test cases ", () => {
-    // it("tests /api/ticket/booktickets for response 200 ok", async () => {
-    //     const response = await request(app)
-    //     .post("/api/ticket/booktickets")
-    //     .auth(token, {type: 'bearer'})
-    //     .send({
-    //         seatId: 9,
-    //         userId: 2,
-    //         auditoriumId: 2,
-    //         showId: 2,
-    //         movieId: 3
-    //     })
-    //     expect(response.body).toEqual({
-    //         message: "Ticket booked  successfully"
-    //      })
-    //     expect(response.statusCode).toBe(200)
-    // })
+    it("tests /api/ticket/booktickets for response 200 ok", async () => {
+        const response = await request(app)
+        .post("/api/ticket/booktickets")
+        .auth(token, {type: 'bearer'})
+        .send({
+            seatId: 11,
+            userId: 2,
+            auditoriumId: 2,
+            showId: 2,
+            movieId: 1,
+        })
+        expect(response.body).toEqual({
+            message: "Ticket booked  successfully"
+         })
+        expect(response.statusCode).toBe(200)
+    })
   
     it("tests /api/ticket/tickets for response 400 bad request ", async () => {
         const response = await request(app)
@@ -122,5 +122,16 @@ describe("all ticket api  test cases ", () => {
 
       expect(response.statusCode).toBe(401)
   })
+  
+  });
+
+
+  describe("available tickets api  test cases ", () => {
+    it("tests /api/ticket/availabletickets for response 200 ok", async () => {
+        const response = await request(app)
+        .get("/api/ticket/availabletickets")
+        .auth(token, {type: 'bearer'})
+        expect(response.statusCode).toBe(200)
+    })
   
   });

@@ -68,6 +68,18 @@ describe("login api  test cases ", () => {
     expect(response.statusCode).toBe(401)
 })
 
+it("tests /api/auth/login for response 401 Unauthorized", async () => {
+  const response = await request(app)
+  .post("/api/auth/login")
+  .send({
+      
+  })
+  expect(response.body).toEqual({
+    message: "email or password does not exist"
+  })
+  expect(response.statusCode).toBe(400)
+})
+
 it("tests /api/auth/login for response 400 bad request", async () => {
   const response = await request(app)
   .post("/api/auth/login")

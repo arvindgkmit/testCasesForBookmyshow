@@ -57,7 +57,7 @@ router.post('/login', (req, res) => {
         }
 
         if (result.length == 0)
-            return res.status(401).json(
+            return res.status(400).json(
                 { message: "email or password does not exist" }
             );
 

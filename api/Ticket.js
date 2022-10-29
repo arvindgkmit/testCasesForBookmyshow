@@ -12,11 +12,11 @@ router.get('/tickets', isSignedIn, (req, res) => {
     INNER JOIN movies On movies.auditoriumId = shows.auditoriumId) 
     inner join auditorium on auditorium.id=seats.auditoriumId)`, (err, result) => {
 
-        if (err) {
-            return res.status(500).json({
+        if(err){
+                return res.status(500).json({
                 error: 'internal server error'
             });
-        }
+         }
 
         return res.status(200).json({
             data: result

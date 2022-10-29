@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.71% </span>
+                <span class="strong">91.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/35</span>
+                <span class='fraction'>32/35</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/18</span>
+                <span class='fraction'>15/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65.71% </span>
+                <span class="strong">91.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/35</span>
+                <span class='fraction'>32/35</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -215,12 +215,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -244,12 +244,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -325,22 +325,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -362,8 +362,8 @@ router.post('/auditorium', isSignedIn, isAdmin, (req, res) =&gt; {
     let city = req.body.city;
     let seats = req.body.seats;
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (auditoriumName == '' || city == '' || seats == '') {
-<span class="cstat-no" title="statement not covered" >        return res.status(401).json({</span>
+    if (auditoriumName == '' || city == '' || seats == '') {
+        return res.status(400).json({
             message: "please enter the all details"
         })
     }
@@ -391,8 +391,8 @@ router.post('/shows', isSignedIn, isAdmin, (req, res) =&gt; {
     let auditoriumId = req.body.auditoriumId;
     let dateTime = req.body.dateTime;
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (movieId == '' || auditoriumId == '' || dateTime == '') {
-<span class="cstat-no" title="statement not covered" >        return res.status(400).json({</span>
+    if (movieId == '' || auditoriumId == '' || dateTime == '') {
+        return res.status(400).json({
             message: "please enter the all details"
         })
     }
@@ -466,24 +466,24 @@ router.post('/shows', isSignedIn, isAdmin, (req, res) =&gt; {
 &nbsp;
 &nbsp;
 &nbsp;
-router.post('/seats', isSignedIn, isAdmin, <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
+router.post('/seats', isSignedIn, isAdmin, (req, res) =&gt; {
     
-    let auditoriumId = <span class="cstat-no" title="statement not covered" >req.body.auditoriumId;</span>
-    let seatNo = <span class="cstat-no" title="statement not covered" >req.body.seatNo;</span>
+    let auditoriumId = req.body.auditoriumId;
+    let seatNo = req.body.seatNo;
     
-<span class="cstat-no" title="statement not covered" >    if (auditoriumId == '') {</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(401).json({</span>
+    if (auditoriumId == '') {
+        return res.status(400).json({
             message: "please enter the all details"
         })
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    db.query("insert into seats(auditoriumId, seatNo ) values(?,?)", [auditoriumId, seatNo], <span class="fstat-no" title="function not covered" >(e</span>rr, result) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if (err) {</span>
+    db.query("insert into seats(auditoriumId, seatNo ) values(?,?)", [auditoriumId, seatNo], (err, result) =&gt; {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
 <span class="cstat-no" title="statement not covered" >            return res.status(500).json({</span>
                 error: 'internal server error'
             });
         }
-<span class="cstat-no" title="statement not covered" >        res.status(201).json({</span>
+        res.status(201).json({
             message: 'seat added successfully'
         });
     });
@@ -499,7 +499,7 @@ module.exports = router;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-10-28T09:09:35.253Z
+                at 2022-10-29T12:36:08.652Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

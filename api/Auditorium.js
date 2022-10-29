@@ -12,7 +12,7 @@ router.post('/auditorium', isSignedIn, isAdmin, (req, res) => {
     let seats = req.body.seats;
 
     if (auditoriumName == '' || city == '' || seats == '') {
-        return res.status(401).json({
+        return res.status(400).json({
             message: "please enter the all details"
         })
     }
@@ -121,7 +121,7 @@ router.post('/seats', isSignedIn, isAdmin, (req, res) => {
     let seatNo = req.body.seatNo;
     
     if (auditoriumId == '') {
-        return res.status(401).json({
+        return res.status(400).json({
             message: "please enter the all details"
         })
     }
